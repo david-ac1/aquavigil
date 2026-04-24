@@ -4,11 +4,17 @@ import { useEffect, useMemo, useState } from "react";
 import { ThresholdGauge } from "@/components/threshold-gauge";
 import { VigilanceBadge } from "@/components/vigilance-badge";
 import type { DeltaTelemetry, RiskGaugeData } from "@/lib/telemetry";
-import { fetchDeltaTelemetry, fetchRiskGauges } from "@/lib/telemetry-client";
+import type { BreachIncident } from "@/lib/incidents";
+import {
+  fetchBreachIncidents,
+  fetchDeltaTelemetry,
+  fetchRiskGauges,
+} from "@/lib/telemetry-client";
 
 export default function SentinelMapPage() {
   const [telemetry, setTelemetry] = useState<DeltaTelemetry[]>([]);
   const [gauges, setGauges] = useState<RiskGaugeData[]>([]);
+  const [incidents, setIncidents] = useState<BreachIncident[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -18,9 +24,10 @@ export default function SentinelMapPage() {
     async function loadTelemetry() {
       try {
         setIsLoading(true);
-        const [delta, gaugeData] = await Promise.all([
+        const [delta, gaugeData, incidentData] = await Promise.all([
           fetchDeltaTelemetry(),
           fetchRiskGauges(),
+          fetchBreachIncidents(),
         ]);
 
         if (!isMounted) {
@@ -29,6 +36,7 @@ export default function SentinelMapPage() {
 
         setTelemetry(delta);
         setGauges(gaugeData);
+        setIncidents(incidentData);
         setError(null);
       } catch (loadError) {
         if (!isMounted) {
@@ -111,6 +119,24 @@ export default function SentinelMapPage() {
               <span>{item.pollutant}</span>
               <span>{item.deltaPercent > 0 ? `+${item.deltaPercent}%` : `${item.deltaPercent}%`}</span>
               <span>{item.riskQuotient}% RQ</span>
+            </div>
+          ))}
+        </div>
+      </article>
+
+      <article className="panel">
+        <h2 className="headline-md">Active Breach Incidents</h2>
+        <div className="telemetry-list">
+          {isLoading && <p className="muted">Evaluating breach incidents...</p>}
+          {!isLoading && !incidents.length && (
+            <p className="muted">No incidents exceed the breach threshold.</p>
+          )}
+          {incidents.map((incident) => (
+            <div key={incident.incidentId} className="telemetry-row">
+              <span>{incident.incidentId}</span>
+              <span>{incident.pollutant}</span>
+              <span>{incident.severity.toUpperCase()}</span>
+              <span>{incident.evidenceHash}</span>
             </div>
           ))}
         </div>

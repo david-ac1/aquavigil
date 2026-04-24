@@ -1,4 +1,5 @@
 import type { DeltaTelemetry, NodeDeepDive, RiskGaugeData } from "@/lib/telemetry";
+import type { BreachIncident } from "@/lib/incidents";
 
 type DataEnvelope<T> = {
   data: T;
@@ -26,4 +27,12 @@ export async function fetchRiskGauges(): Promise<RiskGaugeData[]> {
 export async function fetchPrimaryDeepDive(nodeId?: string): Promise<NodeDeepDive> {
   const query = nodeId ? `?nodeId=${encodeURIComponent(nodeId)}` : "";
   return fetchJson<NodeDeepDive>(`/api/telemetry/deep-dive${query}`);
+}
+
+export async function fetchBreachIncidents(
+  thresholdRiskQuotient = 100,
+): Promise<BreachIncident[]> {
+  return fetchJson<BreachIncident[]>(
+    `/api/incidents/breach?threshold=${thresholdRiskQuotient}`,
+  );
 }
