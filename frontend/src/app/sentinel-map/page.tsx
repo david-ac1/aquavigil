@@ -1,13 +1,11 @@
 import { ThresholdGauge } from "@/components/threshold-gauge";
 import { VigilanceBadge } from "@/components/vigilance-badge";
-
-const telemetry = [
-  { node: "NODE_04", chemical: "Ciprofloxacin", delta: "+150%", risk: 94 },
-  { node: "SECTOR_G", chemical: "Mercury", delta: "+73%", risk: 81 },
-  { node: "NODE_11", chemical: "Nitrates", delta: "+31%", risk: 64 },
-];
+import { getDeltaTelemetry, getRiskGaugeData } from "@/lib/telemetry";
 
 export default function SentinelMapPage() {
+  const telemetry = getDeltaTelemetry();
+  const gauges = getRiskGaugeData();
+
   return (
     <section className="stack-lg">
       <div className="panel panel--hero">
@@ -35,9 +33,9 @@ export default function SentinelMapPage() {
         <article className="panel">
           <h2 className="headline-md">Risk Quotient</h2>
           <div className="stack-sm">
-            <ThresholdGauge label="Sector 09-Beta" value={92} />
-            <ThresholdGauge label="Sector 04-Delta" value={71} />
-            <ThresholdGauge label="Sector 13-Alpha" value={48} />
+            {gauges.map((gauge) => (
+              <ThresholdGauge key={gauge.label} label={gauge.label} value={gauge.value} />
+            ))}
           </div>
         </article>
       </div>
@@ -46,11 +44,11 @@ export default function SentinelMapPage() {
         <h2 className="headline-md">Live Telemetry Stream</h2>
         <div className="telemetry-list">
           {telemetry.map((item) => (
-            <div key={item.node} className="telemetry-row">
-              <span>{item.node}</span>
-              <span>{item.chemical}</span>
-              <span>{item.delta}</span>
-              <span>{item.risk}% RQ</span>
+            <div key={item.nodeId} className="telemetry-row">
+              <span>{item.nodeId}</span>
+              <span>{item.pollutant}</span>
+              <span>{item.deltaPercent > 0 ? `+${item.deltaPercent}%` : `${item.deltaPercent}%`}</span>
+              <span>{item.riskQuotient}% RQ</span>
             </div>
           ))}
         </div>

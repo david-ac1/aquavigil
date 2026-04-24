@@ -283,6 +283,38 @@ a {
   border: 1px solid #252a32;
 }
 
+.chart-mock--bars {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0.6rem;
+  align-items: end;
+  padding: 0.8rem;
+}
+
+.trend-bar-wrap {
+  height: 100%;
+  min-height: 12rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.trend-bar-wrap span {
+  font-size: 0.68rem;
+  color: #bac9cc;
+  font-family: var(--font-roboto-mono), monospace;
+}
+
+.trend-bar {
+  width: 100%;
+  max-width: 2.1rem;
+  background: linear-gradient(180deg, #00e5ff, #006875);
+  border: 1px solid rgba(156, 240, 255, 0.25);
+  box-shadow: 0 0 8px rgba(0, 218, 243, 0.2);
+}
+
 .incident-row {
   border: 1px solid #252a32;
   background: rgba(9, 15, 21, 0.7);
