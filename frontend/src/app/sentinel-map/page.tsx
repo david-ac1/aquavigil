@@ -6,8 +6,9 @@ import { VigilanceBadge } from "@/components/vigilance-badge";
 import type { DeltaTelemetry, RiskGaugeData } from "@/lib/telemetry";
 import type { BreachIncident } from "@/lib/incidents";
 import {
-  fetchBreachIncidents,
+  advanceIncidentStatus,
   fetchDeltaTelemetry,
+  fetchIncidents,
   fetchRiskGauges,
 } from "@/lib/telemetry-client";
 
@@ -27,7 +28,7 @@ export default function SentinelMapPage() {
         const [delta, gaugeData, incidentData] = await Promise.all([
           fetchDeltaTelemetry(),
           fetchRiskGauges(),
-          fetchBreachIncidents(),
+          fetchIncidents(100),
         ]);
 
         if (!isMounted) {
@@ -69,6 +70,20 @@ export default function SentinelMapPage() {
 
     return Math.max(60, Math.min(99, telemetry[0].riskQuotient));
   }, [telemetry]);
+
+  async function onAdvanceIncident(incidentId: string) {
+    try {
+      await advanceIncidentStatus(incidentId);
+      const refreshed = await fetchIncidents(100);
+      setIncidents(refreshed);
+    } catch (transitionError) {
+      setError(
+        transitionError instanceof Error
+          ? transitionError.message
+          : "Failed to update incident status.",
+      );
+    }
+  }
 
   return (
     <section className="stack-lg">
@@ -136,7 +151,17 @@ export default function SentinelMapPage() {
               <span>{incident.incidentId}</span>
               <span>{incident.pollutant}</span>
               <span>{incident.severity.toUpperCase()}</span>
-              <span>{incident.evidenceHash}</span>
+              <span className="incident-actions">
+                <span>{incident.status.toUpperCase()}</span>
+                <button
+                  type="button"
+                  className="incident-action-btn"
+                  onClick={() => onAdvanceIncident(incident.incidentId)}
+                  disabled={incident.status === "resolved"}
+                >
+                  {incident.status === "resolved" ? "Resolved" : "Advance"}
+                </button>
+              </span>
             </div>
           ))}
         </div>

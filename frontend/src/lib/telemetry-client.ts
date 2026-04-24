@@ -36,3 +36,55 @@ export async function fetchBreachIncidents(
     `/api/incidents/breach?threshold=${thresholdRiskQuotient}`,
   );
 }
+
+export async function fetchIncidents(
+  thresholdRiskQuotient = 0,
+): Promise<BreachIncident[]> {
+  return fetchJson<BreachIncident[]>(`/api/incidents?threshold=${thresholdRiskQuotient}`);
+}
+
+export async function advanceIncidentStatus(
+  incidentId: string,
+): Promise<BreachIncident> {
+  const response = await fetch(`/api/incidents/${incidentId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({}),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Incident transition failed: ${response.status}`);
+  }
+
+  const payload = (await response.json()) as DataEnvelope<BreachIncident>;
+  return payload.data;
+}
+
+export type DossierReceipt = {
+  dossierId: string;
+  incidentId: string;
+  generatedAt: string;
+  downloadUrl: string;
+  evidenceHash: string;
+};
+
+export async function generateDossierForIncident(
+  incidentId: string,
+): Promise<DossierReceipt> {
+  const response = await fetch("/api/dossiers/generate", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ incidentId }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Dossier generation failed: ${response.status}`);
+  }
+
+  const payload = (await response.json()) as DataEnvelope<DossierReceipt>;
+  return payload.data;
+}

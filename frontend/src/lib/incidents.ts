@@ -1,5 +1,8 @@
 import { getDeltaTelemetry } from "@/lib/telemetry";
 
+export type IncidentStatus = "open" | "under-review" | "resolved";
+export type IncidentSeverity = "critical" | "high";
+
 export type BreachIncident = {
   incidentId: string;
   nodeId: string;
@@ -7,8 +10,8 @@ export type BreachIncident = {
   pollutant: string;
   riskQuotient: number;
   deltaPercent: number;
-  status: "open" | "under-review";
-  severity: "critical" | "high";
+  status: IncidentStatus;
+  severity: IncidentSeverity;
   observedAt: string;
   evidenceHash: string;
 };
