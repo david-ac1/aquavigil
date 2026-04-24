@@ -132,6 +132,11 @@ export type DeltaTelemetry = {
   observedAt: string;
 };
 
+export type RiskGaugeData = {
+  label: string;
+  value: number;
+};
+
 function toRiskQuotient(concentrationMgL: number, whoLimitMgL: number): number {
   return Math.round((concentrationMgL / whoLimitMgL) * 100);
 }
@@ -174,7 +179,7 @@ export function getDeltaTelemetry(): DeltaTelemetry[] {
     .sort((a, b) => b.riskQuotient - a.riskQuotient);
 }
 
-export function getRiskGaugeData(): Array<{ label: string; value: number }> {
+export function getRiskGaugeData(): RiskGaugeData[] {
   return getDeltaTelemetry().map((item) => ({
     label: item.sector,
     value: Math.min(item.riskQuotient, 100),

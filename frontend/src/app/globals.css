@@ -145,6 +145,12 @@ a {
   padding: 1rem;
 }
 
+.panel--error {
+  border-color: rgba(255, 61, 0, 0.5);
+  color: #ffb4ab;
+  background: linear-gradient(180deg, rgba(147, 0, 10, 0.25), rgba(15, 20, 26, 0.9));
+}
+
 .panel--hero {
   display: flex;
   align-items: flex-start;
