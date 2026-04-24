@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#9cf0ff",
+                        "surface-tint": "#00daf3",
+                        "on-surface-variant": "#bac9cc",
+                        "primary-container": "#00e5ff",
+                        "tertiary-fixed-dim": "#ffb4a2",
+                        "tertiary-container": "#ffc2b3",
+                        "on-primary-fixed": "#001f24",
+                        "error": "#ffb4ab",
+                        "on-surface": "#dee2ec",
+                        "inverse-on-surface": "#2c3138",
+                        "inverse-surface": "#dee2ec",
+                        "on-error-container": "#ffdad6",
+                        "outline-variant": "#3b494c",
+                        "on-secondary": "#2e3037",
+                        "on-background": "#dee2ec",
+                        "on-primary-fixed-variant": "#004f58",
+                        "on-primary-container": "#00626e",
+                        "primary-fixed-dim": "#00daf3",
+                        "on-error": "#690005",
+                        "surface-dim": "#0f141a",
+                        "surface-container": "#1b2027",
+                        "secondary-fixed": "#e1e2eb",
+                        "secondary-fixed-dim": "#c4c6cf",
+                        "tertiary": "#ffe7e2",
+                        "primary": "#c3f5ff",
+                        "secondary": "#c4c6cf",
+                        "on-secondary-container": "#b6b8c1",
+                        "surface-container-lowest": "#090f15",
+                        "surface-container-high": "#252a32",
+                        "on-tertiary": "#621100",
+                        "surface-variant": "#30353d",
+                        "error-container": "#93000a",
+                        "outline": "#849396",
+                        "background": "#0f141a",
+                        "secondary-container": "#464950",
+                        "on-primary": "#00363d",
+                        "surface-container-low": "#171c23",
+                        "surface-container-highest": "#30353d",
+                        "on-secondary-fixed": "#191c22",
+                        "surface-bright": "#353941",
+                        "on-tertiary-fixed": "#3c0700",
+                        "surface": "#0f141a",
+                        "on-tertiary-container": "#aa2600",
+                        "inverse-primary": "#006875",
+                        "on-secondary-fixed-variant": "#44474e",
+                        "tertiary-fixed": "#ffdad2",
+                        "on-tertiary-fixed-variant": "#8a1d00"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "sm": "16px",
+                        "gutter": "20px",
+                        "md": "24px",
+                        "margin": "32px",
+                        "xs": "8px",
+                        "base": "4px",
+                        "xl": "64px",
+                        "lg": "40px"
+                    },
+                    "fontFamily": {
+                        "headline-xl": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "mono-data": ["monospace"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-xl": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                        "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.25", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "mono-data": ["14px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(15, 20, 26, 0.7);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(156, 240, 255, 0.1);
+        }
+        .vigil-glow-cyan {
+            box-shadow: 0 0 15px rgba(0, 218, 243, 0.2);
+        }
+        .vigil-glow-error {
+            box-shadow: 0 0 15px rgba(255, 180, 171, 0.2);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #090f15;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #3b494c;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md overflow-hidden h-screen flex flex-col">
+<!-- TopAppBar Shell -->
+<header class="bg-slate-950/90 backdrop-blur-xl border-slate-900 border-b flex justify-between items-center w-full px-6 h-16 z-50 fixed top-0">
+<div class="flex items-center gap-4">
+<span class="text-2xl font-black tracking-[0.2em] text-cyan-400 drop-shadow-[0_0_8px_rgba(0,229,255,0.4)] font-inter uppercase">AQUAVIGIL</span>
+<div class="h-6 w-px bg-slate-800 mx-2"></div>
+<div class="flex items-center gap-2 text-error animate-pulse">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">warning</span>
+<span class="font-label-caps text-label-caps tracking-widest">VIOLATION DETECTED</span>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex gap-8">
+<a class="text-slate-500 font-medium font-inter tracking-tighter uppercase hover:text-cyan-300 transition-colors" href="#">Sentinel Map</a>
+<a class="text-cyan-400 font-bold border-b-2 border-cyan-400 font-inter tracking-tighter uppercase" href="#">Sensor Deep-Dive</a>
+<a class="text-slate-500 font-medium font-inter tracking-tighter uppercase hover:text-cyan-300 transition-colors" href="#">NGO Reporting</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-500 hover:text-cyan-300 transition-colors">
+<span class="material-symbols-outlined">notifications_active</span>
+</button>
+<button class="text-slate-500 hover:text-cyan-300 transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<img alt="Investigator Profile" class="w-8 h-8 rounded-full border border-cyan-400/30" data-alt="Close-up portrait of a serious male environmental investigator in a dark tactical jacket against a blurred high-tech monitor background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1D5PK7LffnpY5_j_3iadQUQ_kTN80aYFjXkdKPMsSUq4-vv2-1PNuGZetRJJgxCbkW5O_Iepn22wwjUj7DIGi_0D-HyHQaZUlGHdYDAbCfZERJdp4xK0x_8drhvs4f31LjzRX_6NlMfRogAsWp9nU_MPnlmAZxdLSLFMCrwDGYG7kAhGQiiPtuS8XbmRCKSh9ylkGuxlcvJ1axEAuwMhE4OURfIZANWPihcZvP35adO8etexiOOTAM1MkIWUj2CLAOg43ZN04qrT4"/>
+</div>
+</div>
+</header>
+<div class="flex flex-1 pt-16 overflow-hidden">
+<!-- SideNavBar Shell -->
+<aside class="bg-slate-950 border-slate-900 border-r shadow-[4px_0_24px_rgba(0,0,0,0.5)] hidden lg:flex flex-col h-full w-64 pt-4 pb-8 z-40">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-cyan-950/40 rounded flex items-center justify-center border border-cyan-400/20">
+<span class="material-symbols-outlined text-cyan-400">monitoring</span>
+</div>
+<div>
+<p class="text-cyan-400 font-black tracking-widest text-[14px]">AQUAVIGIL</p>
+<p class="text-slate-500 font-inter text-[10px] font-semibold tracking-widest uppercase">Vigilance Protocol v1.0</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="text-slate-500 hover:text-slate-300 px-4 py-3 flex items-center gap-3 font-inter text-xs font-semibold tracking-widest uppercase hover:bg-slate-900/50 transition-all hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">map</span> Sentinel Map
+                </a>
+<a class="text-cyan-400 bg-cyan-950/20 border-l-4 border-cyan-400 px-4 py-3 flex items-center gap-3 font-inter text-xs font-semibold tracking-widest uppercase" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">monitoring</span> Sensor Deep-Dive
+                </a>
+<a class="text-slate-500 hover:text-slate-300 px-4 py-3 flex items-center gap-3 font-inter text-xs font-semibold tracking-widest uppercase hover:bg-slate-900/50 transition-all hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">description</span> NGO Reporting
+                </a>
+<a class="text-slate-500 hover:text-slate-300 px-4 py-3 flex items-center gap-3 font-inter text-xs font-semibold tracking-widest uppercase hover:bg-slate-900/50 transition-all hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">rss_feed</span> Transparency Feed
+                </a>
+</nav>
+<div class="px-4 mb-6">
+<button class="w-full bg-primary-container text-on-primary-fixed py-3 font-label-caps text-label-caps tracking-widest vigil-glow-cyan active:scale-95 transition-transform">
+                    SUBMIT EVIDENCE
+                </button>
+</div>
+<div class="px-4 pt-4 border-t border-slate-900 flex flex-col gap-1">
+<a class="text-slate-500 hover:text-slate-300 px-4 py-2 flex items-center gap-3 font-inter text-[10px] font-semibold tracking-widest uppercase transition-all" href="#">
+<span class="material-symbols-outlined text-sm">help</span> Support
+                </a>
+<a class="text-slate-500 hover:text-slate-300 px-4 py-2 flex items-center gap-3 font-inter text-[10px] font-semibold tracking-widest uppercase transition-all" href="#">
+<span class="material-symbols-outlined text-sm">terminal</span> Terminal
+                </a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 bg-background overflow-y-auto custom-scrollbar p-gutter md:p-margin pb-24 lg:pb-margin relative">
+<!-- Sensor Header Hero -->
+<div class="flex flex-col lg:flex-row justify-between items-start gap-6 mb-gutter">
+<div>
+<div class="flex items-center gap-3 mb-2">
+<span class="font-mono-data text-mono-data text-error-container bg-error/10 px-2 py-0.5 border border-error/20">NODE ID: AV-092-ALPHA</span>
+<div class="flex items-center gap-2 px-3 py-0.5 bg-surface-container-highest border border-outline-variant rounded-full">
+<div class="w-2 h-2 rounded-full bg-error animate-ping"></div>
+<span class="font-label-caps text-[10px] text-on-surface">CRITICAL BREACH</span>
+</div>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-surface-tint">Industrial Sector 4B Outlet</h1>
+<p class="font-body-md text-on-surface-variant max-w-2xl mt-2">Remote telemetry detection of illegal pharmaceutical byproduct discharge. High-precision spectrographic analysis confirmed multiple banned antibiotic agents.</p>
+</div>
+<div class="flex gap-2">
+<div class="glass-panel p-4 flex flex-col items-end vigil-glow-error">
+<span class="font-label-caps text-[10px] text-on-surface-variant uppercase">Verify Data Integrity</span>
+<div class="flex items-center gap-2 mt-1">
+<span class="material-symbols-outlined text-primary-fixed-dim text-sm">verified_user</span>
+<span class="font-mono-data text-primary-fixed text-sm">VERIFIED ON LEDGER</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bento Grid Dashboard -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- 7-Day Line Chart Card -->
+<div class="col-span-12 lg:col-span-8 glass-panel p-gutter min-h-[400px] flex flex-col">
+<div class="flex justify-between items-center mb-gutter">
+<h2 class="font-headline-md text-headline-md text-on-surface">Antibiotic Concentration (mg/L)</h2>
+<div class="flex gap-2">
+<span class="px-2 py-1 bg-surface-container text-on-surface font-mono-data text-[12px] border border-outline-variant">7D RANGE</span>
+<span class="px-2 py-1 bg-surface-container text-on-surface font-mono-data text-[12px] border border-outline-variant">HOURLY AVG</span>
+</div>
+</div>
+<!-- Chart Visualization Mockup -->
+<div class="flex-1 relative flex items-end gap-1 px-2 pt-8">
+<!-- Y-axis marks -->
+<div class="absolute left-0 top-0 h-full flex flex-col justify-between text-[10px] font-mono-data text-outline pr-4 border-r border-outline-variant/30">
+<span>2.00</span><span>1.50</span><span>1.00</span><span>0.50</span><span>0.00</span>
+</div>
+<!-- Grid lines background -->
+<div class="absolute inset-0 z-0 flex flex-col justify-between pointer-events-none opacity-10 ml-12">
+<div class="border-b border-on-surface-variant"></div>
+<div class="border-b border-on-surface-variant"></div>
+<div class="border-b border-on-surface-variant"></div>
+<div class="border-b border-on-surface-variant"></div>
+<div class="border-b border-on-surface-variant"></div>
+</div>
+<!-- Simulated Data Line using CSS path/clip -->
+<div class="flex-1 h-full ml-12 relative overflow-hidden">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 1000 400">
+<path d="M0,380 L100,360 L200,370 L300,340 L400,350 L500,200 L600,150 L700,50 L800,120 L900,100 L1000,80" fill="none" stroke="#00daf3" stroke-linecap="round" stroke-width="4"></path>
+<path d="M0,380 L100,360 L200,370 L300,340 L400,350 L500,200 L600,150 L700,50 L800,120 L900,100 L1000,80 V400 H0 Z" fill="url(#cyanGradient)" opacity="0.1"></path>
+<defs>
+<lineargradient id="cyanGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#00daf3"></stop>
+<stop offset="100%" stop-color="#00daf3" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<!-- Alert Threshold -->
+<line stroke="#ffb4ab" stroke-dasharray="8,4" stroke-width="1" x1="0" x2="1000" y1="200" y2="200"></line>
+</svg>
+<div class="absolute top-[180px] right-2 text-error font-mono-data text-[10px] font-bold">REGULATORY LIMIT</div>
+</div>
+</div>
+<!-- Time Labels -->
+<div class="flex justify-between ml-12 mt-4 font-mono-data text-[10px] text-outline">
+<span>OCT 20</span><span>OCT 21</span><span>OCT 22</span><span>OCT 23</span><span>OCT 24</span><span>OCT 25</span><span>TODAY</span>
+</div>
+</div>
+<!-- Source Probability Card -->
+<div class="col-span-12 md:col-span-6 lg:col-span-4 glass-panel p-gutter flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-6">
+<h2 class="font-headline-md text-headline-md text-on-surface">Source Attribution</h2>
+<span class="material-symbols-outlined text-surface-tint">factory</span>
+</div>
+<div class="flex flex-col items-center justify-center py-4">
+<div class="relative w-40 h-40 flex items-center justify-center">
+<svg class="w-full h-full -rotate-90">
+<circle cx="80" cy="80" fill="none" r="70" stroke="#1A1F26" stroke-width="12"></circle>
+<circle class="vigil-glow-cyan" cx="80" cy="80" fill="none" r="70" stroke="#00daf3" stroke-dasharray="440" stroke-dashoffset="26.4" stroke-linecap="round" stroke-width="12"></circle>
+</svg>
+<div class="absolute flex flex-col items-center">
+<span class="font-headline-xl text-[48px] text-primary-fixed">94%</span>
+<span class="font-label-caps text-[10px] text-outline uppercase">Confidence Score</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low p-4 border border-outline-variant rounded-lg">
+<p class="font-label-caps text-[10px] text-outline mb-2">PROBABLE ORIGIN</p>
+<p class="font-body-md text-on-surface font-bold">BioMedix Manufacturing Plant #7</p>
+<div class="mt-3 flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+<span class="font-body-sm text-error font-semibold">MATCHES SPECTRAL FINGERPRINT</span>
+</div>
+</div>
+</div>
+<!-- GPS & Geographic Location -->
+<div class="col-span-12 md:col-span-6 lg:col-span-4 glass-panel overflow-hidden flex flex-col h-[320px]">
+<div class="p-gutter flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-fixed">location_on</span>
+<div>
+<p class="font-label-caps text-[10px] text-outline">SENSOR COORDINATES</p>
+<p class="font-mono-data text-on-surface">45.52306° N, 122.67648° W</p>
+</div>
+</div>
+<div class="flex-1 bg-slate-900 relative">
+<img alt="Satellite view map of industrial zone near river delta" class="w-full h-full object-cover opacity-50 grayscale hover:grayscale-0 transition-all duration-500" data-alt="Satellite map view of a river cutting through a geometric industrial district with chemical tanks and dark water reflections" data-location="Portland" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUPDC7n5nWT1p92SJe-2F1UzSzCYX8a7dlxWqtnN0Ad3h4eXJ3aloFJf0ec4SUvmKgRUdLtf7_bJtEl_7y9eCWcTGeSnox_ywT_r1yAsXyKWo6COdONuxYeZeAQ1YLxiO6ip8gFS0p27fJS0WyUyb7sS49nESb2oUYP6Yih--OSgNQn5UekIAfTTw8epBq1ylenrWOJYDDXsuY3DKJEQScaxLRReZemArptuEiQ1XB3e56D4jaa3qKt7QaGy-tFc8EPf_Vzh2rMoGT"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-12 h-12 bg-error/20 border-2 border-error rounded-full animate-pulse flex items-center justify-center">
+<div class="w-3 h-3 bg-error rounded-full"></div>
+</div>
+</div>
+<div class="absolute bottom-2 right-2 bg-slate-950/80 px-2 py-1 border border-slate-800 font-mono-data text-[10px] text-cyan-400">
+                            TERRAIN: RIVER DELTA B
+                        </div>
+</div>
+</div>
+<!-- Pollutant Breakdown Table -->
+<div class="col-span-12 lg:col-span-8 glass-panel p-gutter">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-gutter">Detection Summary</h3>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant">
+<th class="pb-3 font-label-caps text-outline">COMPOUND</th>
+<th class="pb-3 font-label-caps text-outline text-right">CONCENTRATION</th>
+<th class="pb-3 font-label-caps text-outline text-right">TREND</th>
+<th class="pb-3 font-label-caps text-outline text-right">STATUS</th>
+</tr>
+</thead>
+<tbody class="font-mono-data text-body-sm">
+<tr class="border-b border-outline-variant/30 hover:bg-slate-900/50 transition-colors">
+<td class="py-4">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 bg-cyan-950/40 text-cyan-400 border border-cyan-400/20 text-[10px] font-bold">CIPROFLOXACIN</span>
+</div>
+</td>
+<td class="py-4 text-right">1.24 mg/L</td>
+<td class="py-4 text-right text-error flex items-center justify-end gap-1">
+<span class="material-symbols-outlined text-sm">trending_up</span> +14%
+                                    </td>
+<td class="py-4 text-right">
+<span class="bg-error/10 text-error px-2 py-0.5 border border-error/20 rounded">VIOLATION</span>
+</td>
+</tr>
+<tr class="border-b border-outline-variant/30 hover:bg-slate-900/50 transition-colors">
+<td class="py-4">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 bg-cyan-950/40 text-cyan-400 border border-cyan-400/20 text-[10px] font-bold">AMOXICILLIN</span>
+</div>
+</td>
+<td class="py-4 text-right">0.86 mg/L</td>
+<td class="py-4 text-right text-error flex items-center justify-end gap-1">
+<span class="material-symbols-outlined text-sm">trending_up</span> +22%
+                                    </td>
+<td class="py-4 text-right">
+<span class="bg-error/10 text-error px-2 py-0.5 border border-error/20 rounded">VIOLATION</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-900/50 transition-colors">
+<td class="py-4">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 bg-surface-container text-on-surface-variant border border-outline-variant text-[10px] font-bold">SULFADIAZINE</span>
+</div>
+</td>
+<td class="py-4 text-right">0.02 mg/L</td>
+<td class="py-4 text-right text-on-surface-variant flex items-center justify-end gap-1">
+<span class="material-symbols-outlined text-sm">horizontal_rule</span> 0%
+                                    </td>
+<td class="py-4 text-right">
+<span class="bg-surface-container text-on-surface-variant px-2 py-0.5 border border-outline-variant rounded">NOMINAL</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Footer Action Bar -->
+<div class="mt-margin flex justify-between items-center bg-surface-container-low p-gutter border border-outline-variant rounded-xl vigil-glow-cyan">
+<div class="flex items-center gap-6">
+<div class="flex flex-col">
+<span class="font-label-caps text-[10px] text-outline uppercase">Evidence ID</span>
+<span class="font-mono-data text-on-surface">SHA-256: 8f9a2b...4d1e</span>
+</div>
+<div class="h-8 w-px bg-slate-800"></div>
+<div class="flex flex-col">
+<span class="font-label-caps text-[10px] text-outline uppercase">Active Stream</span>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+<span class="font-mono-data text-cyan-400">LIVE FEED ENCRYPTED</span>
+</div>
+</div>
+</div>
+<div class="flex gap-4">
+<button class="border border-cyan-400 text-cyan-400 px-6 py-3 font-label-caps text-label-caps tracking-widest hover:bg-cyan-400/10 transition-colors">EXPORT DOSSIER</button>
+<button class="bg-primary-container text-on-primary-fixed px-6 py-3 font-label-caps text-label-caps tracking-widest vigil-glow-cyan active:scale-95 transition-transform">ISSUE COMPLIANCE ORDER</button>
+</div>
+</div>
+</main>
+</div>
+<!-- BottomNavBar Shell (Mobile only) -->
+<nav class="lg:hidden bg-slate-950/95 backdrop-blur-lg border-slate-900 border-t fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 pb-safe shadow-[0_-4px_12px_rgba(0,0,0,0.6)]">
+<button class="flex flex-col items-center justify-center text-slate-600 hover:text-cyan-200 transition-colors">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-tighter">Map</span>
+</button>
+<button class="flex flex-col items-center justify-center text-cyan-400 drop-shadow-[0_0_5px_rgba(0,229,255,0.5)] scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="analytics" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-tighter">Sensor</span>
+</button>
+<button class="flex flex-col items-center justify-center text-slate-600 hover:text-cyan-200 transition-colors">
+<span class="material-symbols-outlined" data-icon="add_box">add_box</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-tighter">Report</span>
+</button>
+<button class="flex flex-col items-center justify-center text-slate-600 hover:text-cyan-200 transition-colors">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-tighter">Feed</span>
+</button>
+</nav>
+</body></html>

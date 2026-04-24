@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed": "#9cf0ff",
+                    "surface-tint": "#00daf3",
+                    "on-surface-variant": "#bac9cc",
+                    "primary-container": "#00e5ff",
+                    "tertiary-fixed-dim": "#ffb4a2",
+                    "tertiary-container": "#ffc2b3",
+                    "on-primary-fixed": "#001f24",
+                    "error": "#ffb4ab",
+                    "on-surface": "#dee2ec",
+                    "inverse-on-surface": "#2c3138",
+                    "inverse-surface": "#dee2ec",
+                    "on-error-container": "#ffdad6",
+                    "outline-variant": "#3b494c",
+                    "on-secondary": "#2e3037",
+                    "on-background": "#dee2ec",
+                    "on-primary-fixed-variant": "#004f58",
+                    "on-primary-container": "#00626e",
+                    "primary-fixed-dim": "#00daf3",
+                    "on-error": "#690005",
+                    "surface-dim": "#0f141a",
+                    "surface-container": "#1b2027",
+                    "secondary-fixed": "#e1e2eb",
+                    "secondary-fixed-dim": "#c4c6cf",
+                    "tertiary": "#ffe7e2",
+                    "primary": "#c3f5ff",
+                    "secondary": "#c4c6cf",
+                    "on-secondary-container": "#b6b8c1",
+                    "surface-container-lowest": "#090f15",
+                    "surface-container-high": "#252a32",
+                    "on-tertiary": "#621100",
+                    "surface-variant": "#30353d",
+                    "error-container": "#93000a",
+                    "outline": "#849396",
+                    "background": "#0f141a",
+                    "secondary-container": "#464950",
+                    "on-primary": "#00363d",
+                    "surface-container-low": "#171c23",
+                    "surface-container-highest": "#30353d",
+                    "on-secondary-fixed": "#191c22",
+                    "surface-bright": "#353941",
+                    "on-tertiary-fixed": "#3c0700",
+                    "surface": "#0f141a",
+                    "on-tertiary-container": "#aa2600",
+                    "inverse-primary": "#006875",
+                    "on-secondary-fixed-variant": "#44474e",
+                    "tertiary-fixed": "#ffdad2",
+                    "on-tertiary-fixed-variant": "#8a1d00"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "sm": "16px",
+                    "gutter": "20px",
+                    "md": "24px",
+                    "margin": "32px",
+                    "xs": "8px",
+                    "base": "4px",
+                    "xl": "64px",
+                    "lg": "40px"
+            },
+            "fontFamily": {
+                    "headline-xl": ["Inter"],
+                    "label-caps": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "mono-data": ["monospace"],
+                    "body-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-xl": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.25", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "mono-data": ["14px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .vignette-overlay {
+            background: radial-gradient(circle, transparent 0%, rgba(15, 20, 26, 0.8) 100%);
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0f141a; }
+        ::-webkit-scrollbar-thumb { background: #3b494c; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md overflow-hidden h-screen flex">
+<!-- SideNavBar (Shared Component) -->
+<aside class="hidden lg:flex flex-col h-screen pt-4 pb-8 bg-slate-950 fixed left-0 h-full w-64 border-r border-slate-900 shadow-[4px_0_24px_rgba(0,0,0,0.5)] z-50">
+<div class="px-6 mb-10">
+<h1 class="text-cyan-400 font-black tracking-widest text-headline-md font-headline-md">AQUAVIGIL</h1>
+<p class="font-inter text-xs font-semibold tracking-widest uppercase text-slate-500">Vigilance Protocol v1.0</p>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="text-slate-500 hover:text-slate-300 px-4 py-3 flex items-center gap-3 hover:bg-slate-900/50 transition-all font-inter text-xs font-semibold tracking-widest uppercase" href="#">
+<span class="material-symbols-outlined">map</span>
+                Sentinel Map
+            </a>
+<a class="text-slate-500 hover:text-slate-300 px-4 py-3 flex items-center gap-3 hover:bg-slate-900/50 transition-all font-inter text-xs font-semibold tracking-widest uppercase" href="#">
+<span class="material-symbols-outlined">monitoring</span>
+                Sensor Deep-Dive
+            </a>
+<a class="text-cyan-400 bg-cyan-950/20 border-l-4 border-cyan-400 px-4 py-3 flex items-center gap-3 font-inter text-xs font-semibold tracking-widest uppercase" href="#">
+<span class="material-symbols-outlined">description</span>
+                NGO Reporting
+            </a>
+<a class="text-slate-500 hover:text-slate-300 px-4 py-3 flex items-center gap-3 hover:bg-slate-900/50 transition-all font-inter text-xs font-semibold tracking-widest uppercase" href="#">
+<span class="material-symbols-outlined">rss_feed</span>
+                Transparency Feed
+            </a>
+</nav>
+<div class="px-4 mb-6">
+<button class="w-full py-3 bg-primary-container text-on-primary-fixed font-label-caps text-label-caps border border-transparent hover:bg-primary-fixed-dim transition-colors shadow-[0_0_12px_rgba(0,229,255,0.3)]">
+                SUBMIT EVIDENCE
+            </button>
+</div>
+<div class="mt-auto border-t border-slate-900 pt-4">
+<a class="text-slate-500 hover:text-slate-300 px-4 py-3 flex items-center gap-3 font-inter text-xs font-semibold tracking-widest uppercase" href="#">
+<span class="material-symbols-outlined">help</span>
+                Support
+            </a>
+<a class="text-slate-500 hover:text-slate-300 px-4 py-3 flex items-center gap-3 font-inter text-xs font-semibold tracking-widest uppercase" href="#">
+<span class="material-symbols-outlined">terminal</span>
+                Terminal
+            </a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 lg:ml-64 relative flex flex-col h-full bg-surface-container-lowest overflow-hidden">
+<!-- TopAppBar (Shared Component) -->
+<header class="flex justify-between items-center w-full px-6 h-16 z-40 bg-slate-950/90 backdrop-blur-xl border-b border-slate-900">
+<div class="flex items-center gap-4">
+<span class="lg:hidden material-symbols-outlined text-cyan-400">menu</span>
+<span class="text-2xl font-black tracking-[0.2em] text-cyan-400 drop-shadow-[0_0_8px_rgba(0,229,255,0.4)] font-inter tracking-tighter uppercase">AQUAVIGIL</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex items-center gap-4 border-r border-slate-800 pr-6">
+<span class="text-slate-500 font-medium text-xs font-inter uppercase hover:text-cyan-300 transition-colors cursor-pointer">Global Index: <span class="text-cyan-400">74.2</span></span>
+<span class="text-slate-500 font-medium text-xs font-inter uppercase hover:text-cyan-300 transition-colors cursor-pointer">Active Alerts: <span class="text-error">12</span></span>
+</div>
+<div class="flex items-center gap-4 text-cyan-400">
+<span class="material-symbols-outlined cursor-pointer hover:text-cyan-300">notifications_active</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-cyan-300">settings</span>
+<div class="w-8 h-8 rounded-full border border-cyan-400/30 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="professional female environmental investigator portrait with neutral background and sharp focus" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_duZ_Kt5Ar6fOZGg-QmKHml82OLT46a0mj-l5BJXlwAXQkvBV4F6UHALG5_qwmoK6sGu-M9j5x165jvr0AW8aclCe_iSdNAkXaN3c8ulmXrxRUiC0eW8qquct6elo4QwkN700oz-l604UWzcG4IJUEuTV8rmjo4gYPh1dBWSB3zE3r19r1VbdKTHlFc7Mg7C1EBR7YrzMEE3DUKDQcpqpj3yy3VzrccKBG86XOV0LcHBREFl5yPUki9HFc9aQSBP5l3YpJJtLl8uw"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Reporting View Background Content (Under Modal) -->
+<div class="p-gutter grid grid-cols-12 gap-gutter flex-1 overflow-y-auto pb-24 lg:pb-gutter">
+<!-- Summary Header -->
+<div class="col-span-12 flex items-center justify-between py-xs">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">NGO Oversight Panel</h2>
+<p class="text-on-surface-variant font-body-sm">Aggregate analysis for legal submission and ESG compliance auditing.</p>
+</div>
+<button class="bg-primary-container text-on-primary-fixed font-label-caps text-label-caps px-lg py-sm shadow-[0_0_15px_rgba(0,229,255,0.2)]">
+                    + NEW INVESTIGATION
+                </button>
+</div>
+<!-- Accountability Cards (Bento Style) -->
+<div class="col-span-12 md:col-span-8 bg-surface-container border border-outline-variant p-md relative overflow-hidden">
+<div class="absolute top-0 right-0 p-xs">
+<span class="font-mono-data text-[10px] text-cyan-400 opacity-50 uppercase tracking-widest">Case ID: AQ-2024-X9</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-sm">Industrial Effluent Case Study</h3>
+<div class="flex gap-4 mb-md">
+<div class="bg-surface-container-high px-3 py-1 border border-outline-variant rounded-full text-label-caps text-cyan-400">LEAD</div>
+<div class="bg-surface-container-high px-3 py-1 border border-outline-variant rounded-full text-label-caps text-error">CADMIUM</div>
+<div class="bg-surface-container-high px-3 py-1 border border-outline-variant rounded-full text-label-caps text-on-surface-variant">NITRATES</div>
+</div>
+<div class="h-48 w-full bg-slate-900 border border-slate-800 relative group overflow-hidden">
+<img class="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700" data-alt="industrial complex discharge pipe releasing gray water into a river with dramatic cinematic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7FPzZs75xzAaB2V9eSjt9fAo9piuHCLJk2F5nmNtS-txyT9T8AOMs1e6HBYdEWYZ0ucxSNKt3EK2YxQ8raLEJPI1OoST6xQwGii3t96TGgiHaXSpHzn6Ngxgw0tYG-x9-aWW_Y0RFYSWjm9oETr2nEiyTt6u-W7WF-kEYpbIUfBpwWrR51WVkcpINoRxm6oKFtVMt7t__eYCN99EruzMeWRhWEr6SZIB3wQwOVDroahF91lspvJIjV-xlHtpWaDHZsDEGPIRIHpeG"/>
+<div class="absolute inset-0 bg-gradient-to-t from-slate-950 to-transparent"></div>
+<div class="absolute bottom-4 left-4">
+<p class="font-mono-data text-xs text-primary-fixed">LAT: 40.7128° N | LONG: 74.0060° W</p>
+</div>
+</div>
+</div>
+<div class="col-span-12 md:col-span-4 bg-surface-container border border-outline-variant p-md flex flex-col">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant mb-md uppercase tracking-widest">Enforcement Status</h3>
+<div class="flex-1 space-y-gutter">
+<div class="flex items-center justify-between border-b border-outline-variant pb-xs">
+<span class="font-body-md text-on-surface">Whistleblower Reports</span>
+<span class="font-mono-data text-headline-md text-cyan-400">128</span>
+</div>
+<div class="flex items-center justify-between border-b border-outline-variant pb-xs">
+<span class="font-body-md text-on-surface">Legal Actions Pending</span>
+<span class="font-mono-data text-headline-md text-on-surface">14</span>
+</div>
+<div class="flex items-center justify-between border-b border-outline-variant pb-xs">
+<span class="font-body-md text-on-surface">Media Mentions</span>
+<span class="font-mono-data text-headline-md text-primary-fixed-dim">09</span>
+</div>
+<div class="flex items-center justify-between pb-xs">
+<span class="font-body-md text-on-surface">Violation Index</span>
+<span class="font-mono-data text-headline-md text-error">CRITICAL</span>
+</div>
+</div>
+</div>
+</div>
+<!-- ESG Reporting Slide-Over Modal Overlay -->
+<div class="absolute inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex justify-end">
+<!-- Modal Content -->
+<div class="w-full max-w-2xl bg-surface-container-high border-l border-cyan-400/30 h-full flex flex-col shadow-[-10px_0_40px_rgba(0,0,0,0.8)]">
+<!-- Modal Header -->
+<div class="p-md border-b border-outline-variant flex items-center justify-between bg-slate-900/50">
+<div>
+<div class="flex items-center gap-2 text-cyan-400 mb-1">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span class="font-label-caps text-[10px] uppercase tracking-[0.2em]">Legal Framework V4.0</span>
+</div>
+<h2 class="font-headline-lg text-headline-md text-on-surface uppercase">ESG Accountability Report</h2>
+</div>
+<button class="w-10 h-10 flex items-center justify-center hover:bg-surface-variant transition-colors border border-outline-variant">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Modal Body (Scrollable) -->
+<div class="flex-1 overflow-y-auto p-md space-y-lg">
+<!-- Report Intro Section -->
+<section class="space-y-sm">
+<p class="font-body-md text-on-surface-variant leading-relaxed">
+                            This report aggregates temporal sensor telemetry and satellite reconnaissance to establish a causal link between industrial discharge and downstream contamination levels. Prepared for <span class="text-on-surface font-bold">Regulatory Submission.</span>
+</p>
+</section>
+<!-- Downstream vs Upstream Comparison -->
+<section class="space-y-md">
+<div class="flex items-center justify-between">
+<h3 class="font-label-caps text-label-caps text-cyan-400 uppercase tracking-widest">Downstream vs. Upstream Delta</h3>
+<span class="font-mono-data text-[10px] text-on-surface-variant">Telemetry Sync: Live</span>
+</div>
+<div class="grid grid-cols-2 gap-gutter">
+<div class="bg-surface-dim border border-outline-variant p-md">
+<span class="font-label-caps text-[10px] text-on-surface-variant uppercase">Upstream (Baseline)</span>
+<div class="text-headline-md font-mono-data mt-2 text-on-surface">12.4 <span class="text-xs">ppm</span></div>
+<div class="mt-4 h-1 w-full bg-slate-800">
+<div class="bg-primary-fixed-dim h-full w-[12%]"></div>
+</div>
+</div>
+<div class="bg-surface-dim border border-error/20 p-md relative">
+<div class="absolute -top-2 right-2 bg-error text-on-error font-label-caps text-[9px] px-2 py-0.5">VIOLATION</div>
+<span class="font-label-caps text-[10px] text-on-surface-variant uppercase">Downstream (Target)</span>
+<div class="text-headline-md font-mono-data mt-2 text-error">142.8 <span class="text-xs">ppm</span></div>
+<div class="mt-4 h-1 w-full bg-slate-800">
+<div class="bg-error h-full w-[85%]"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- WHO Violations Table -->
+<section class="space-y-md">
+<h3 class="font-label-caps text-label-caps text-on-surface uppercase tracking-widest">WHO/EPA Threshold Violations</h3>
+<div class="bg-surface-container border border-outline-variant overflow-hidden">
+<table class="w-full text-left font-body-sm">
+<thead class="bg-surface-variant/50 text-on-surface-variant uppercase text-[10px] font-bold">
+<tr>
+<th class="p-3 border-b border-outline-variant">Pollutant</th>
+<th class="p-3 border-b border-outline-variant">Current</th>
+<th class="p-3 border-b border-outline-variant">Max Limit</th>
+<th class="p-3 border-b border-outline-variant">Severity</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/30">
+<tr class="bg-surface-container hover:bg-surface-variant/20 transition-colors">
+<td class="p-3 font-mono-data text-cyan-400">Mercury (Hg)</td>
+<td class="p-3">0.08 mg/L</td>
+<td class="p-3">0.01 mg/L</td>
+<td class="p-3"><span class="text-error font-bold text-[10px]">800% OVER</span></td>
+</tr>
+<tr class="bg-surface-container-low hover:bg-surface-variant/20 transition-colors">
+<td class="p-3 font-mono-data text-cyan-400">Arsenic (As)</td>
+<td class="p-3">0.05 mg/L</td>
+<td class="p-3">0.01 mg/L</td>
+<td class="p-3"><span class="text-error font-bold text-[10px]">500% OVER</span></td>
+</tr>
+<tr class="bg-surface-container hover:bg-surface-variant/20 transition-colors">
+<td class="p-3 font-mono-data text-cyan-400">Total Nitrogen</td>
+<td class="p-3">14.2 mg/L</td>
+<td class="p-3">10.0 mg/L</td>
+<td class="p-3"><span class="text-tertiary font-bold text-[10px]">ELEVATED</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Action Toggles -->
+<section class="space-y-sm bg-slate-900/40 p-md border border-cyan-400/10">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest mb-4">Transmission Protocol</h3>
+<div class="flex items-center justify-between py-2">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-cyan-400">account_balance</span>
+<div>
+<p class="font-body-md text-on-surface leading-none">Alert Local Authorities</p>
+<p class="text-[10px] text-on-surface-variant">Automated filing with EPA Regional Office</p>
+</div>
+</div>
+<div class="w-12 h-6 bg-primary-container/20 rounded-full relative cursor-pointer border border-cyan-400/50">
+<div class="absolute right-1 top-1 w-4 h-4 bg-primary-container rounded-full shadow-[0_0_8px_rgba(0,229,255,0.8)]"></div>
+</div>
+</div>
+<div class="flex items-center justify-between py-2">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary">trending_up</span>
+<div>
+<p class="font-body-md text-on-surface leading-none">Notify ESG Investors</p>
+<p class="text-[10px] text-on-surface-variant">Push notification to BlackRock &amp; Vanguard boards</p>
+</div>
+</div>
+<div class="w-12 h-6 bg-surface-variant rounded-full relative cursor-pointer border border-outline-variant">
+<div class="absolute left-1 top-1 w-4 h-4 bg-on-surface-variant rounded-full"></div>
+</div>
+</div>
+</section>
+</div>
+<!-- Modal Footer Actions -->
+<div class="p-md border-t border-outline-variant bg-slate-950 flex gap-4">
+<button class="flex-1 py-4 border border-cyan-400 text-cyan-400 font-label-caps text-label-caps uppercase hover:bg-cyan-400/10 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">download</span>
+                        Download PDF
+                    </button>
+<button class="flex-[2] py-4 bg-primary-container text-on-primary-fixed font-label-caps text-label-caps uppercase shadow-[0_0_20px_rgba(0,229,255,0.4)] hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">send</span>
+                        Generate ESG Accountability Report
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Shared Component - Mobile Only) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 pb-safe bg-slate-950/95 backdrop-blur-lg border-t border-slate-900 shadow-[0_-4px_12px_rgba(0,0,0,0.6)]">
+<a class="flex flex-col items-center justify-center text-slate-600" href="#">
+<span class="material-symbols-outlined">explore</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-tighter">Map</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-600" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-tighter">Sensor</span>
+</a>
+<a class="flex flex-col items-center justify-center text-cyan-400 drop-shadow-[0_0_5px_rgba(0,229,255,0.5)] scale-110" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_box</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-tighter">Report</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-600" href="#">
+<span class="material-symbols-outlined">visibility</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-tighter">Feed</span>
+</a>
+</nav>
+</body></html>
