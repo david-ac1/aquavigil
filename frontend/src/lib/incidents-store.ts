@@ -3,6 +3,7 @@ import {
   type IncidentStatus,
   getBreachIncidents,
 } from "@/lib/incidents";
+import { queueIncidentAlert, seedAlertsForIncidents } from "@/lib/alerts-store";
 import { readJsonFile, writeJsonFile } from "@/lib/persistence";
 
 const statusOrder: IncidentStatus[] = ["open", "under-review", "resolved"];
@@ -19,6 +20,7 @@ function ensureStore(): BreachIncident[] {
 
   if (!persisted.length && seed.length) {
     writeJsonFile(INCIDENTS_FILE, seed);
+    seedAlertsForIncidents(seed);
     incidentStoreCache = seed;
     return incidentStoreCache;
   }
@@ -65,5 +67,12 @@ export function transitionIncidentStatus(
 
   incident.status = desiredStatus;
   persistStore(store);
+
+  if (incident.status === "open" && desiredStatus === "under-review") {
+    queueIncidentAlert(incident, "incident-escalated");
+  } else if (desiredStatus !== "resolved") {
+    queueIncidentAlert(incident, "incident-status-updated");
+  }
+
   return incident;
 }

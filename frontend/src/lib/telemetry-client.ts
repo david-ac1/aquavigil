@@ -1,5 +1,6 @@
 import type { DeltaTelemetry, NodeDeepDive, RiskGaugeData } from "@/lib/telemetry";
 import type { BreachIncident } from "@/lib/incidents";
+import type { StakeholderAlert } from "@/lib/alerts-store";
 
 type DataEnvelope<T> = {
   data: T;
@@ -86,5 +87,24 @@ export async function generateDossierForIncident(
   }
 
   const payload = (await response.json()) as DataEnvelope<DossierReceipt>;
+  return payload.data;
+}
+
+export async function fetchAlerts(): Promise<StakeholderAlert[]> {
+  return fetchJson<StakeholderAlert[]>("/api/alerts");
+}
+
+export async function dispatchStakeholderAlert(
+  alertId: string,
+): Promise<StakeholderAlert> {
+  const response = await fetch(`/api/alerts/${alertId}/dispatch`, {
+    method: "POST",
+  });
+
+  if (!response.ok) {
+    throw new Error(`Alert dispatch failed: ${response.status}`);
+  }
+
+  const payload = (await response.json()) as DataEnvelope<StakeholderAlert>;
   return payload.data;
 }

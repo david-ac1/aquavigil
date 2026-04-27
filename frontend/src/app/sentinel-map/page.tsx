@@ -3,11 +3,14 @@
 import { useEffect, useMemo, useState } from "react";
 import { ThresholdGauge } from "@/components/threshold-gauge";
 import { VigilanceBadge } from "@/components/vigilance-badge";
+import type { StakeholderAlert } from "@/lib/alerts-store";
 import type { DeltaTelemetry, RiskGaugeData } from "@/lib/telemetry";
 import type { BreachIncident } from "@/lib/incidents";
 import {
   advanceIncidentStatus,
+  dispatchStakeholderAlert,
   fetchDeltaTelemetry,
+  fetchAlerts,
   fetchIncidents,
   fetchRiskGauges,
 } from "@/lib/telemetry-client";
@@ -16,6 +19,7 @@ export default function SentinelMapPage() {
   const [telemetry, setTelemetry] = useState<DeltaTelemetry[]>([]);
   const [gauges, setGauges] = useState<RiskGaugeData[]>([]);
   const [incidents, setIncidents] = useState<BreachIncident[]>([]);
+  const [alerts, setAlerts] = useState<StakeholderAlert[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -25,10 +29,11 @@ export default function SentinelMapPage() {
     async function loadTelemetry() {
       try {
         setIsLoading(true);
-        const [delta, gaugeData, incidentData] = await Promise.all([
+        const [delta, gaugeData, incidentData, alertData] = await Promise.all([
           fetchDeltaTelemetry(),
           fetchRiskGauges(),
           fetchIncidents(100),
+          fetchAlerts(),
         ]);
 
         if (!isMounted) {
@@ -38,6 +43,7 @@ export default function SentinelMapPage() {
         setTelemetry(delta);
         setGauges(gaugeData);
         setIncidents(incidentData);
+        setAlerts(alertData);
         setError(null);
       } catch (loadError) {
         if (!isMounted) {
@@ -74,13 +80,31 @@ export default function SentinelMapPage() {
   async function onAdvanceIncident(incidentId: string) {
     try {
       await advanceIncidentStatus(incidentId);
-      const refreshed = await fetchIncidents(100);
+      const [refreshed, refreshedAlerts] = await Promise.all([
+        fetchIncidents(100),
+        fetchAlerts(),
+      ]);
       setIncidents(refreshed);
+      setAlerts(refreshedAlerts);
     } catch (transitionError) {
       setError(
         transitionError instanceof Error
           ? transitionError.message
           : "Failed to update incident status.",
+      );
+    }
+  }
+
+  async function onDispatchAlert(alertId: string) {
+    try {
+      await dispatchStakeholderAlert(alertId);
+      const refreshedAlerts = await fetchAlerts();
+      setAlerts(refreshedAlerts);
+    } catch (dispatchError) {
+      setError(
+        dispatchError instanceof Error
+          ? dispatchError.message
+          : "Failed to dispatch alert.",
       );
     }
   }
@@ -160,6 +184,34 @@ export default function SentinelMapPage() {
                   disabled={incident.status === "resolved"}
                 >
                   {incident.status === "resolved" ? "Resolved" : "Advance"}
+                </button>
+              </span>
+            </div>
+          ))}
+        </div>
+      </article>
+
+      <article className="panel">
+        <h2 className="headline-md">Stakeholder Alert Queue</h2>
+        <div className="telemetry-list">
+          {isLoading && <p className="muted">Loading stakeholder alerts...</p>}
+          {!isLoading && !alerts.length && (
+            <p className="muted">No alerts queued.</p>
+          )}
+          {alerts.map((alert) => (
+            <div key={alert.alertId} className="telemetry-row">
+              <span>{alert.alertId}</span>
+              <span>{alert.trigger}</span>
+              <span>{alert.status.toUpperCase()}</span>
+              <span className="incident-actions">
+                <span>{alert.channel.toUpperCase()}</span>
+                <button
+                  type="button"
+                  className="incident-action-btn"
+                  onClick={() => onDispatchAlert(alert.alertId)}
+                  disabled={alert.status === "sent"}
+                >
+                  {alert.status === "sent" ? "Sent" : "Dispatch"}
                 </button>
               </span>
             </div>
