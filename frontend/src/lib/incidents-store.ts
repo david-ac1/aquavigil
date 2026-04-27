@@ -3,16 +3,33 @@ import {
   type IncidentStatus,
   getBreachIncidents,
 } from "@/lib/incidents";
+import { readJsonFile, writeJsonFile } from "@/lib/persistence";
 
 const statusOrder: IncidentStatus[] = ["open", "under-review", "resolved"];
-let incidentStore: BreachIncident[] | null = null;
+const INCIDENTS_FILE = "incidents.json";
+let incidentStoreCache: BreachIncident[] | null = null;
 
 function ensureStore(): BreachIncident[] {
-  if (!incidentStore) {
-    incidentStore = getBreachIncidents();
+  if (incidentStoreCache) {
+    return incidentStoreCache;
   }
 
-  return incidentStore;
+  const seed = getBreachIncidents();
+  const persisted = readJsonFile<BreachIncident[]>(INCIDENTS_FILE, seed);
+
+  if (!persisted.length && seed.length) {
+    writeJsonFile(INCIDENTS_FILE, seed);
+    incidentStoreCache = seed;
+    return incidentStoreCache;
+  }
+
+  incidentStoreCache = persisted;
+  return incidentStoreCache;
+}
+
+function persistStore(store: BreachIncident[]): void {
+  incidentStoreCache = store;
+  writeJsonFile(INCIDENTS_FILE, store);
 }
 
 export function listIncidents(options?: { thresholdRiskQuotient?: number }): BreachIncident[] {
@@ -47,5 +64,6 @@ export function transitionIncidentStatus(
   }
 
   incident.status = desiredStatus;
+  persistStore(store);
   return incident;
 }
