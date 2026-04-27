@@ -5,6 +5,7 @@ export type NavItem = {
 };
 
 export const NAV_ITEMS: NavItem[] = [
+  { href: "/", label: "Dashboard", shortLabel: "Home" },
   { href: "/sentinel-map", label: "Sentinel Map", shortLabel: "Map" },
   {
     href: "/sensor-deep-dive",

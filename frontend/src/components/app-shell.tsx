@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import type { ReactNode } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
 import { NAV_ITEMS } from "@/lib/navigation";
+import { fetchIncidents } from "@/lib/telemetry-client";
+import type { ReactNode } from "react";
 
 type AppShellProps = {
   children: ReactNode;
@@ -11,6 +13,23 @@ type AppShellProps = {
 
 export function AppShell({ children }: AppShellProps) {
   const pathname = usePathname();
+  const router = useRouter();
+  const [isSubmittingEvidence, setIsSubmittingEvidence] = useState(false);
+
+  async function onSubmitEvidence() {
+    try {
+      setIsSubmittingEvidence(true);
+      const incidents = await fetchIncidents(100);
+      const selectedIncidentId = incidents[0]?.incidentId;
+      const targetUrl = selectedIncidentId
+        ? `/ngo-reporting?incidentId=${encodeURIComponent(selectedIncidentId)}`
+        : "/ngo-reporting";
+
+      router.push(targetUrl);
+    } finally {
+      setIsSubmittingEvidence(false);
+    }
+  }
 
   return (
     <div className="app-shell">
@@ -41,8 +60,8 @@ export function AppShell({ children }: AppShellProps) {
             <span>{item.label}</span>
           </Link>
         ))}
-        <button className="primary-cta" type="button">
-          Submit Evidence
+        <button className="primary-cta" type="button" onClick={onSubmitEvidence} disabled={isSubmittingEvidence}>
+          {isSubmittingEvidence ? "Submitting..." : "Submit Evidence"}
         </button>
       </aside>
 
