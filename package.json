@@ -1,6 +1,9 @@
 {
   "name": "aquavigil",
   "private": true,
+  "devDependencies": {
+    "next": "16.2.4"
+  },
   "scripts": {
     "postinstall": "npm --prefix frontend install",
     "dev": "npm --prefix frontend run dev",
