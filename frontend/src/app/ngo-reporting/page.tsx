@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
 import { VigilanceBadge } from "@/components/vigilance-badge";
 import type { BreachIncident } from "@/lib/incidents";
 import {
@@ -11,7 +10,6 @@ import {
 } from "@/lib/telemetry-client";
 
 export default function NgoReportingPage() {
-  const searchParams = useSearchParams();
   const [incidents, setIncidents] = useState<BreachIncident[]>([]);
   const [selectedIncidentId, setSelectedIncidentId] = useState<string | null>(null);
   const [receipt, setReceipt] = useState<DossierReceipt | null>(null);
@@ -29,13 +27,12 @@ export default function NgoReportingPage() {
         }
 
         setIncidents(response);
-        const requestedIncidentId = searchParams.get("incidentId");
-        const matchedIncident =
-          (requestedIncidentId &&
-            response.find((incident) => incident.incidentId === requestedIncidentId)) ??
-          response[0];
+        const requestedIncidentId = new URLSearchParams(window.location.search).get("incidentId");
+        const matchedIncident = requestedIncidentId
+          ? response.find((incident) => incident.incidentId === requestedIncidentId)
+          : response[0];
 
-        setSelectedIncidentId(matchedIncident?.incidentId ?? null);
+        setSelectedIncidentId(matchedIncident ? matchedIncident.incidentId : null);
       } catch (loadError) {
         if (!isMounted) {
           return;
@@ -50,7 +47,7 @@ export default function NgoReportingPage() {
     return () => {
       isMounted = false;
     };
-  }, [searchParams]);
+  }, []);
 
   async function onGenerateDossier() {
     if (!selectedIncidentId) {

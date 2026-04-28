@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { renderDossierText } from "@/lib/dossiers-store";
+import { renderDossierPdf } from "@/lib/dossiers-store";
 
 type Params = {
   params: Promise<{ dossierId: string }>;
@@ -7,17 +7,17 @@ type Params = {
 
 export async function GET(_: Request, context: Params) {
   const { dossierId } = await context.params;
-  const content = renderDossierText(dossierId);
+  const content = await renderDossierPdf(dossierId);
 
   if (!content) {
     return NextResponse.json({ error: "Dossier not found." }, { status: 404 });
   }
 
-  return new NextResponse(content, {
+  return new NextResponse(Buffer.from(content), {
     status: 200,
     headers: {
-      "Content-Type": "text/plain; charset=utf-8",
-      "Content-Disposition": `attachment; filename=\"${dossierId}.txt\"`,
+      "Content-Type": "application/pdf",
+      "Content-Disposition": `attachment; filename=\"${dossierId}.pdf\"`,
       "Cache-Control": "no-store",
     },
   });
